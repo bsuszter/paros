@@ -26,7 +26,7 @@
 }
 
 .also{
-    background-color: #39A2B8;
+    background-color: #ffffff;
     /* background-color: #438945; */
     border-radius: 0 0 15px 15px;
 }
@@ -46,7 +46,7 @@
     width: 96%;
 }
 
-.szavas{
+.szavas_bal, .szavas_jobb{
     display: block;
     margin-left: auto;
     margin-right: auto;
