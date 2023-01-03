@@ -6,15 +6,20 @@ feladvany_jobb = [
     ["nem", "igen","asztal","kutya","macska"],
 ]
 
+
+
+//a feladványok számának kinyerése
 var szavaklong = feladvany_bal[0].length - 1;
-
-    const element_array2 = [];
-
-    for (i = 0; i < szavaklong + 1; i++) {
-
-            element_array2.push(i);
-    }
-
+//egy tömb létrehozása a jobb oldali feladványok sorszámának megkeveréséhez
+const element_array2 = [];
+for (i = 0; i < szavaklong + 1; i++) {
+ element_array2.push(i);
+}
+//egy tömb létrehozása a bal oldali feladványok sorszámának megkeveréséhez
+const element_array3 = [];
+for (i = 0; i < szavaklong + 1; i++) {
+ element_array3.push(i);
+}
 
  //első indításkor kialakítja a feladványok sorrendjét
  var i = 0;
@@ -34,14 +39,29 @@ var szavaklong = feladvany_bal[0].length - 1;
      //presto, we now have 2 swapped numbers
  }
 
+ //első indításkor kialakítja a feladványok sorrendjét
+ var i = 0;
+ var buffer = 0;
+ // 100-szor keveri meg - két szám felcserélésével
+ for (i = 0; i < 100; i++) 
+ {
+     //generates two random numbers, saves them as integers
+     var first_location = Math.floor(Math.random() * szavaklong);
+     var second_location = Math.floor(Math.random() * szavaklong);
+     //saves the value in the randomly selected first location as buffer
+     var buffer = element_array3[first_location];
+     //changes first location's value to second location's value
+     element_array3[first_location] = element_array3[second_location];
+     //changes second location's value to buffer value (original first location)
+     element_array3[second_location] = buffer;
+     //presto, we now have 2 swapped numbers
+ }
 
-
-console.log(element_array2)
-
+//a bal és jobb oldali feladványok kiíratása a képernyőre
 var d1 = document.getElementsByClassName("szavas_bal");
 
 for (let index = 0; index < feladvany_bal[0].length; index++) {
-    d1[index].value = feladvany_bal[0][index]; 
+    d1[index].value = feladvany_bal[0][element_array3[index]];  
 }
 
 var d2 = document.getElementsByClassName("szavas_jobb");
@@ -73,7 +93,7 @@ function delay(time) {
   }
 //#endregion
 
-
+//a helyes megoldások keretének színei
 szinek = [
     "violet", "green","blue","brown","gold"
 ]
@@ -85,96 +105,97 @@ var bal = document.getElementsByClassName("szavas_bal");
 var jobb = document.getElementsByClassName("szavas_jobb");
 
 
-
+//bal oldali feladványok közül kiválasztás
 $(".szavas_bal").click(function() {
+    //ha nincs a jobb oldalon semmi kiválasztva, akkor engedi a választást balról
     if (document.getElementById("jobboldali_ertek").innerHTML == "") {
-        console.log("mindkettő üres")
+        //minden gomb fehér
         alaphelyzet();
         //a gomb lenyomásakor sárga kijelölő szín
         this.style.backgroundColor = "yellow"
-        //eltárolja egy rejtett divben a lenyomott gomb értékét
-        //document.getElementById("baloldali_ertek").innerHTML = this.value;
+        //beteszi egy rejtett divbe a kiválasztott feladvány tömbindexét (hányadik a tömbben)
         document.getElementById("baloldali_ertek").innerHTML = feladvany_bal[0].indexOf(this.value);
+        //beteszi egy rejtett divbe a kiválasztott feladvány aktuális indexét (hányadik a gombok közül)
         document.getElementById("baloldali_index").innerHTML = this.name;
-        var feladvanyom = document.getElementById("baloldali_ertek").innerHTML;
+
+/*         var feladvanyom = document.getElementById("baloldali_ertek").innerHTML;
         console.log(feladvany_bal[0][feladvanyom])
-        console.log(feladvany_jobb[0][feladvanyom])
+        console.log(feladvany_jobb[0][feladvanyom]) */
     
-    } else
+    } 
+    //már a jobb oldalon kiválasztottak egy gombot, tehát ellenőrizni kell
+    else
     {
-        //eltárolja egy rejtett divben a lenyomott gomb értékét
-        //document.getElementById("baloldali_ertek").innerHTML = this.value;
+        //beteszi egy rejtett divbe a kiválasztott feladvány tömbindexét (hányadik a tömbben)
         document.getElementById("baloldali_ertek").innerHTML = feladvany_bal[0].indexOf(this.value);
-        document.getElementById("baloldali_index").innerHTML = this.name;
-        console.log("igaz") 
-        for (index = 0; index < 5; index++) {
-            bal[index].style.backgroundColor = "white"
-        }
-        this.style.backgroundColor = "orange"
-        // var eredmeny_jobb = document.getElementById("jobboldali_ertek").innerHTML;
-         var index_jobb = document.getElementById("jobboldali_index").innerHTML;
+        //beteszi egy rejtett divbe a kiválasztott feladvány aktuális indexét (hányadik a gombok közül)
+        document.getElementById("baloldali_index").innerHTML = this.name;       
 
-        // var eredmeny_bal = this.value;
-
+        //a rejtett divből kinyert változók
         var eredmeny_bal = document.getElementById("baloldali_ertek").innerHTML;
         var eredmeny_jobb = document.getElementById("jobboldali_ertek").innerHTML;
-        var index_bal = document.getElementById("baloldali_index").innerHTML;
-
-        //var eredmeny_jobb = this.value;
-
-        console.log("bal kiválasztás: " + eredmeny_bal + "jobb kiválasztás" + eredmeny_jobb)
-    
+        
+        //ezzel a változóval érjük el, hogy a helyes párosításnál a párokat azonos színű kerettel jelölje
+        var index_jobb = document.getElementById("jobboldali_index").innerHTML;
+        //ellenőrzés
          if (eredmeny_bal == eredmeny_jobb) {
-            this.style.backgroundColor = "green"
+            //ha jó, akkor világoszöld háttérrel jelöli mindkét oldalon
+            this.style.backgroundColor = "lightgreen"
+            jobb[index_jobb - 1].style.backgroundColor = "lightgreen" 
+
+            //ha jó, beállít egy vastagabb szegélyt
             this.style.border = "5px solid" 
-            this.style.borderColor = szinek[szinszam]
-            jobb[index_jobb - 1].style.backgroundColor = "green" 
             jobb[index_jobb - 1].style.border = "5px solid"
+
+            //ha jó, a színtömbből kiszedi a következő színt
+            this.style.borderColor = szinek[szinszam]
             jobb[index_jobb - 1].style.borderColor = szinek[szinszam]
+
+            //a színek számát növeli
             szinszam += 1;
+            //letiltja mindkét gombot, hogy már ne legyen aktív
             this.disabled = "true"
             jobb[index_jobb - 1].disabled = "true"
+
+            //kitakarítja a diveket
             document.getElementById("baloldali_ertek").innerHTML = "";
             document.getElementById("jobboldali_ertek").innerHTML = "";
             document.getElementById("baloldali_index").innerHTML = "";
             document.getElementById("jobboldali_index").innerHTML = "";
+            //várakozás 1 mp-ig
             test();
+        //ha nem jó a megoldás
         } else
-        {
+        {   
+            //akkor a kiválasztott gombokat pirosra festi
             this.style.backgroundColor = "red" 
             jobb[index_jobb - 1].style.backgroundColor = "red" 
+
+            //kitakarítja a diveket
             document.getElementById("baloldali_ertek").innerHTML = "";
             document.getElementById("jobboldali_ertek").innerHTML = "";
             document.getElementById("baloldali_index").innerHTML = "";
             document.getElementById("jobboldali_index").innerHTML = "";
-            test();
-            
+            //várakozás 1 mp-ig
+            test();    
         } 
     }
 
 });
 
+//ugyanaz a jobb oldali blokkra
 $(".szavas_jobb").click(function() {
     if (document.getElementById("baloldali_ertek").innerHTML == "" ) {
         console.log("mindkettő üres") 
         alaphelyzet();
-        //a gomb lenyomásakor sárga kijelölő szín
         this.style.backgroundColor = "yellow"
-        //eltárolja egy rejtett divben a lenyomott gomb értékét
-        //document.getElementById("jobboldali_ertek").innerHTML = this.value;
         document.getElementById("jobboldali_ertek").innerHTML = feladvany_jobb[0].indexOf(this.value);
         document.getElementById("jobboldali_index").innerHTML = this.name;
-
-        
      } else
      {
-        //eltárolja egy rejtett divben a lenyomott gomb értékét
-        //document.getElementById("jobboldali_ertek").innerHTML = this.value;
         document.getElementById("jobboldali_ertek").innerHTML = feladvany_jobb[0].indexOf(this.value);
         document.getElementById("jobboldali_index").innerHTML = this.name;
 
-
-        console.log("hamis")
         for (index = 0; index < 5; index++) {
             jobb[index].style.backgroundColor = "white"
         }
@@ -183,15 +204,12 @@ $(".szavas_jobb").click(function() {
         var eredmeny_jobb = document.getElementById("jobboldali_ertek").innerHTML;
         var index_bal = document.getElementById("baloldali_index").innerHTML;
 
-        //var eredmeny_jobb = this.value;
-
-        console.log("bal kiválasztás: " + eredmeny_bal + "jobb kiválasztás" + eredmeny_jobb)
     
          if (eredmeny_bal == eredmeny_jobb) {
-            this.style.backgroundColor = "green"
+            this.style.backgroundColor = "lightgreen"
             this.style.border = "5px solid" 
             this.style.borderColor = szinek[szinszam]
-            bal[index_bal - 1].style.backgroundColor = "green" 
+            bal[index_bal - 1].style.backgroundColor = "lightgreen" 
             bal[index_bal - 1].style.border = "5px solid"
             bal[index_bal - 1].style.borderColor = szinek[szinszam]
             szinszam += 1
@@ -217,32 +235,5 @@ $(".szavas_jobb").click(function() {
 
 
 
-/* $(".szavas").click(function() {
-    for (index = 0; index < 5; index++) {
-        jobb[index].style.backgroundColor = "white"
-    }
-    this.style.backgroundColor = "orange"
-    var eredmeny_bal = document.getElementById("baloldali_ertek").innerHTML;
-    var eredmeny_jobb = this.value;
 
-    if (eredmeny_bal == eredmeny_jobb) {
-        this.style.backgroundColor = "green"
-        this.style.border = "5px solid" 
-        this.style.borderColor = szinek[eredmeny_bal - 1]
-        bal[eredmeny_bal - 1].style.backgroundColor = "green" 
-        bal[eredmeny_bal - 1].style.border = "5px solid"
-        bal[eredmeny_bal - 1].style.borderColor = szinek[eredmeny_bal - 1]
-        this.disabled = "true"
-        bal[eredmeny_bal - 1].disabled = "true"
-        document.getElementById("baloldali_ertek").innerHTML = "";
-        test();
-    } else
-    {
-        this.style.backgroundColor = "red" 
-        bal[eredmeny_bal - 1].style.backgroundColor = "red" 
-        document.getElementById("baloldali_ertek").innerHTML = "";
-        test();
-        
-    }
-}); */
 
