@@ -1,12 +1,21 @@
 /* reszponzivitás */
 @media only screen and (max-width: 400px) {
 	.keret{
-        height: 500px;
+        height: 500px!important;
     }
 
     .szavak1, .szavak2, .szavak3, .szavak4{
         width: 120px!important;
         font-size: 14px!important;
+    }
+
+    .szavas_bal, .szavas_jobb{
+        width: 120px!important;
+        font-size: 14px!important; 
+    }
+
+    .also{
+        height: 300px!important;
     }
 
 }
@@ -44,6 +53,7 @@
     margin-left: auto;
     margin-right: auto;
     width: 96%;
+    height: 350px;
 }
 
 .szavas_bal, .szavas_jobb{
@@ -59,4 +69,34 @@
     background-color: #F7F4E9;
     cursor: pointer;
     text-align: center;
+}
+
+h3{
+    text-align: center;
+    margin: 10px;
+}
+
+.gombok{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#ujra, #ujGomb {
+    background-color:  #f55858;
+    cursor: pointer;
+    margin: 20px;
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+}
+
+#indit {
+    background-color: #FB8604;
 }

@@ -1,12 +1,15 @@
 feladvany_bal = [
-    ["no", "yes","table","dog","cat"],
+    ["Aki haragszik,", "Nem mind arany,","Aki sokat csalódik,","Aki á-t mond,","Kétszer ad,"],
 ]
 
 feladvany_jobb = [
-    ["nem", "igen","asztal","kutya","macska"],
+    ["az békül.", "ami fénylik.","keveset bízik.","mondjon bé-t is!","aki gyorsan ad."],
 ]
 
-
+document.getElementById("baloldali_ertek").style.display = "none";
+document.getElementById("baloldali_index").style.display = "none";
+document.getElementById("jobboldali_ertek").style.display = "none";
+document.getElementById("jobboldali_index").style.display = "none";
 
 //a feladványok számának kinyerése
 var szavaklong = feladvany_bal[0].length - 1;
@@ -87,7 +90,7 @@ function delay(time) {
   }
   
   async function test() {
-    await delay(1000);
+    await delay(300);
 
     alaphelyzet();
   }
@@ -233,6 +236,9 @@ $(".szavas_jobb").click(function() {
      }
 });
 
+$('#ujra').click(function() {
+    document.location.reload();
+});
 
 
 
